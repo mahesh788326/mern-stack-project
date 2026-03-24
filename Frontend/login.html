@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>City Hospital Appointment System</h1>
+</header>
+
+<div class="container">
+    <h2>Patient Login</h2>
+
+    <form id="loginForm">
+        <label>Email</label>
+        <input id="loginEmail" type="email" required placeholder="example@gmail.com">
+
+        <label>Password</label>
+        <input id="loginPassword" type="password" required placeholder="Password">
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p style="margin-top: 14px;">
+        <a href="forgot-password.html" style="color: rgba(255,255,255,0.9); text-decoration: underline;">
+            Forgot Password?
+        </a>
+    </p>
+</div>
+
+<script>
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                alert(data.message || "Email/password not matched");
+                return;
+            }
+
+            localStorage.setItem("token", data.token);
+            window.location.href = "dashboard.html";
+        } catch (err) {
+            alert("Server not reachable. Start backend first.");
+        }
+    });
+</script>
+
+</body>
+</html>

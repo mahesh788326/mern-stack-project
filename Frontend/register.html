@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>City Hospital Appointment System</h1>
+</header>
+
+<div class="container">
+    <h2>Patient Registration</h2>
+
+    <form id="registerForm">
+        <label>Name</label>
+        <input id="regName" type="text" required placeholder="Your name">
+
+        <label>Email</label>
+        <input id="regEmail" type="email" required placeholder="example@gmail.com">
+
+        <label>Password</label>
+        <input id="regPassword" type="password" required placeholder="Create password">
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<script>
+    const registerForm = document.getElementById("registerForm");
+
+    registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("regName").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const password = document.getElementById("regPassword").value;
+
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                alert(data.message || "Registration failed");
+                return;
+            }
+
+            alert(data.message || "Registered successfully. Please login.");
+            window.location.href = "login.html";
+        } catch (err) {
+            alert("Server not reachable. Start backend first.");
+        }
+    });
+</script>
+
+</body>
+</html>

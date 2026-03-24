@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="success-page">
+
+<header>
+    <h1>City Hospital Appointment System</h1>
+</header>
+
+<div class="container">
+    <h2>Appointment Booked Successfully ✅</h2>
+    <a href="dashboard.html">
+        <button>Back to Dashboard</button>
+    </a>
+</div>
+
+<script>
+    if (!localStorage.getItem("token")) {
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>
